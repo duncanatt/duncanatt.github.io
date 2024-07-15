@@ -30,38 +30,43 @@
     <!-- Nav -->
     <nav id="nav">
       <ul>
-        <li><a href="#about" class="active">About Me</a></li>
-        <li><a href="#publications">Publications</a></li>
-        <li><a href="#teaching">Teaching Experience</a></li>
-        <li><a href="#projects">Projects</a></li>
+        <li><a href="#bio" class="active"><span class="icon fas fa-user-graduate"></span> Bio</a></li>
+        <li><a href="#research"><span class="icon fas fa-microscope"></span> Research Interests</a></li>
+        <li><a href="#publications"><span class="icon fas fa-book"></span> Publications</a></li>
+        <li><a href="#committees"><span class="icon fas fa-users"></span> Committees</a></li>
+        <li><a href="#teaching"><span class="icon fas fa-chalkboard-teacher"></span> Teaching</a></li>
+        <li><a href="#projects"><span class="icon fas fa-code-branch"></span> Projects</a></li>
       </ul>
     </nav>
 
     <div id="main">
 
-      <section id="about" class="main">
+      <section id="bio" class="main">
         <div class="spotlight">
           <div class="content">
-            <header class="major">
-              <h2>
-                <span class="icon pad-right fas fa-user-circle"></span>
-                About me
-              </h2>
-            </header>
             <p>
-              I am a PhD candidate reading for a joint programme between Reykjav&iacute;k University and the University of Malta.
-              Prior to resuming my studies, I pursued a software development career for seven years.
+              <!-- <span class="icon fas fa-user-graduate">&nbsp;</span> -->
+              After obtaining a BSc (Hons) degree in Computer Science and Artificial Intelligence from the University of Malta, I pursued a software development career for seven years.
             </p>
             <p>
-              My main research interests lie in the area of runtime monitoring and verification for concurrent and
-              distributed systems, automated synthesis of efficient runtime monitors, and software engineering
-              techniques to address scalability and partial-failure in distributed systems.
-              I am also interested in the semantics of programming languages, language design, concurrent languages,
-              compiler construction, formal modelling and verification of systems, and various program logics.
+              I have since completed a PhD in Computer Science from Reykjav&iacute;k University (Iceland) and the University of Malta (Malta).
+              I am a second-year postdoctoral researcher in the <a href="https://www.gla.ac.uk/schools/computing/research/researchthemes/pl-theme/">Programming Languages Theme</a> at the University of Glasgow in the UK.
             </p>
           </div>
           <span class="image"><img src="images/profile-col.png" alt="" /></span>
         </div>
+      </section>
+
+      <section id="research" class="main">
+        <header class="major">
+          <h2><span class="icon pad-right fas fa-microscope"></span>Research Interests</h2>
+        </header>
+        <p>
+          Runtime monitoring and verification of concurrent and distributed systems &bull; automated synthesis of efficient runtime monitors &bull; software engineering for scalability and partial failure in distributed systems
+        </p>
+        <p>
+          Semantics of programming languages &bull; concurrent languages &bull; compiler construction &bull; formal modelling and verification of systems &bull; resource usage analysis &bull; multi-agent systems
+        </p>
       </section>
 
       <section id="publications" class="main">
@@ -69,57 +74,151 @@
           <h2><span class="icon pad-right fas fa-book"></span>Publications</h2>
         </header>
         <h3>Book Chapters</h3>
-        <ol>
-          <li><b>Attard, D. P.</b>, Cassar, I., Francalanza, A., Aceto, L., Ing&oacute;lfsd&oacute;ttir, A.: <a
-              href="http://staff.um.edu.mt/afra1/papers/betty-book.pdf" target="_blank">A Runtime Monitoring Tool for
-              Actor-Based Systems</a>. In Behavioural Types for Reliable Large-Scale Software Systems (BETTY) COST
-            Action, pp. 49-76 (2017).</li>
-        </ol>
+        <ul>
+          <li>
+            <a href="http://staff.um.edu.mt/afra1/papers/betty-book.pdf" target="_blank">A Runtime Monitoring Tool for Actor-Based Systems</a> in BETTY COST Action 2017
+            <p><b>Attard, D. P.</b>, Cassar, I., Francalanza, A., Aceto, L., Ing&oacute;lfsd&oacute;ttir, A.</p>
+            <p><a href="https://bitbucket.org/duncanatt/detecter-lite" target="_blank">Artefact</a></p>
+          </li>
+        </ul>
         <h3>Conferences and Workshops</h3>
-        <ol start="2">
-          <li>Le Brun, M. A., <b>Attard, D. P.</b>, Francalanza, A.: <a href="http://staff.um.edu.mt/afra1/papers/Erlang21.pdf" target="_blank">Graft: general purpose raft consensus in Elixir</a>. In Erlang Workshop, ACM, pp. 2-14 (2021).</li>
-          <li>Aceto, L., <b>Attard, D. P.</b>, Francalanza, A., Ing&oacute;lfsd&oacute;ttir: <a href="http://staff.um.edu.mt/afra1/papers/Fase2021.pdf" target="_blank">On Benchmarking for Concurrent Runtime Verification</a>. In FASE, LNCS, vol. 12649, pp. 3-23 (2021).</li>
-          <li><b>Attard, D. P.</b>, Aceto, L., Achilleos, A., Francalanza, A., Ing&oacute;lfsd&oacute;ttir, A., Lehtinen, K.: <a href="http://staff.um.edu.mt/afra1/papers/forte-tutorial-2021.pdf" target="_blank">Better Late Than Never or: Verifying Asynchronous Components at Runtime</a>. In FORTE, LNCS, vol. 12719, pp. 207-225 (2021).</li>
-          <li>Francalanza, A., Aceto, L., Achilleos, A., <b>Attard, D. P.</b>, Cassar, I., Della Monica, D., Ing&oacute;lfsd&oacute;ttir, A.: <a href="http://staff.um.edu.mt/afra1/papers/rv17.pdf" target="_blank">A Foundation for Runtime Monitoring</a>. In RV, LNCS, vol. 10548, pp. 8-29 (2017).</li>
-          <li>Cassar, I., Francalanza, A., <b>Attard, D. P.</b>, Aceto, L., Ing&oacute;lfsd&oacute;ttir, A.: <a href="http://staff.um.edu.mt/afra1/papers/SuiteMonTools17.pdf" target="_blank">A Suite of Monitoring Tools for Erlang</a>. In RV-CuBES, Kalpa, vol. 3, pp. 41-47 (2017).</li>
-          <li>Cassar, I., Francalanza, A., <b>Attard, D. P.</b>, Aceto, L., Ing&oacute;lfsd&oacute;ttir, A.: <a href="http://staff.um.edu.mt/afra1/papers/GenInstrErl.pdf" target="_blank">A Generic Instrumentation Tool for Erlang</a>. In RV-CuBES, Kalpa, vol. 3, pp. 48-54 (2017).</li>
-          <li><b>Attard, D. P.</b>, Francalanza, A.: <a href="http://staff.um.edu.mt/afra1/papers/sefm17.pdf" target="_blank">Trace Partitioning and Local Monitoring for Asynchronous Components</a>. In SEFM, LNCS, vol. 10469, pp. 219-235 (2017).</li>
-          <li><b>Attard, D. P.</b>, and Francalanza, A.: <a href="http://staff.um.edu.mt/afra1/papers/rv2016.pdf" target="_blank">A Monitoring Tool for a Branching-Time Logic</a>. In RV, LNCS, vol. 10012, pp. 473-481 (2016).</li>
-        </ol>
-        <h3>Technical Reports</h3>
-        <ol start="10">
-          <li>Aceto, L., <b>Attard, D. P.</b>, Francalanza, A., Ing&oacute;lfsd&oacute;ttir, A.: <a href="https://arxiv.org/pdf/2104.09433.pdf" target="_blank">A Choreographed Outline Instrumentation Algorithm for Asynchronous Components (Technical Report)</a>. In CoRR abs/2104.09433 (2021).</li>
-        </ol>
-        <footer class="major">
-        </footer>
+        <ul>
+          <li>
+            <a href="http://staff.um.edu.mt/afra1/papers/ecoop24.pdf" target="_blank">Runtime Instrumentation for Reactive Components</a> in ECOOP 2024
+            <p>Aceto, L., <b>Attard, D. P.</b>, Francalanza, A., Ing&oacute;lfsd&oacute;ttir, A.</p>
+            <p><a href="https://arxiv.org/pdf/2406.19904" target="_blank">Extended Version</a> &bull; <a href="https://arxiv.org/pdf/2104.09433.pdf" target="_blank">Technical Report</a> &bull; <a href="https://doi.org/10.5281/zenodo.10634182" target="_blank">Artefact</a></p>
+          </li>
+          <li>
+            <a href="https://simonjf.com/writing/pat.pdf" target="_blank">Special Delivery: Programming with Mailbox Types</a> in ICFP 2023
+            <p>Fowler, S., <b>Attard, D. P.</b>, Sowul, F., Gay, S. J., Trinder, P.</p>
+          </li>
+          <li>
+            <a href="https://staff.um.edu.mt/afra1/papers/Coord2022b.pdf" target="_blank">A Monitoring Tool for Linear-Time μHML</a> in COORDINATION 2022
+            <p>Aceto, L., Achilleos, A., <b>Attard, D. P.</b>, Exibard, L., Francalanza, A., Ingólfsdóttir, A.</p>
+            <p>Best overall paper award &bull; <a href="https://duncanatt.github.io/detecter/using-detecter/getting-started.html" target="_blank">Artefact</a></p>
+          </li>
+          <li>
+            <a href="http://staff.um.edu.mt/afra1/papers/Erlang21.pdf" target="_blank">Graft: general purpose raft consensus in Elixir</a> in Erlang Workshop 2021
+            <p>Le Brun, M. A., <b>Attard, D. P.</b>, Francalanza, A.</p>
+          </li>
+          <li>
+            <a href="http://staff.um.edu.mt/afra1/papers/forte-tutorial-2021.pdf" target="_blank">Better Late Than Never or: Verifying Asynchronous Components at Runtime</a> in FORTE 2021
+            <p><b>Attard, D. P.</b>, Aceto, L., Achilleos, A., Francalanza, A., Ing&oacute;lfsd&oacute;ttir, A., Lehtinen, K.</p>
+            <p> Tutorial videos <a href="https://youtu.be/ADc2HM63ppQ" target="_blank">1</a> <a href="https://youtu.be/xAml5kLBaBQ" target="_blank">2</a> <a href="https://youtu.be/OUwKF38GRbM" target="_blank">3</a> &bull; <a href="https://duncanatt.github.io/detecter" target="_blank">Artefact</a></p>
+          </li>
+          <li>
+            <a href="http://staff.um.edu.mt/afra1/papers/Fase2021.pdf" target="_blank">On Benchmarking for Concurrent Runtime Verification</a> in FASE 2021
+            <p>Aceto, L., <b>Attard, D. P.</b>, Francalanza, A., Ing&oacute;lfsd&oacute;ttir A.</p>
+          </li>
+          <li>
+            <a href="http://staff.um.edu.mt/afra1/papers/rv17.pdf" target="_blank">A Foundation for Runtime Monitoring</a> in RV 2017
+            <p>Francalanza, A., Aceto, L., Achilleos, A., <b>Attard, D. P.</b>, Cassar, I., Della Monica, D., Ing&oacute;lfsd&oacute;ttir, A.</p>
+          </li>
+          <li>
+            <a href="http://staff.um.edu.mt/afra1/papers/SuiteMonTools17.pdf" target="_blank">A Suite of Monitoring Tools for Erlang</a> in RV-CuBES 2017
+            <p>Cassar, I., Francalanza, A., <b>Attard, D. P.</b>, Aceto, L., Ing&oacute;lfsd&oacute;ttir, A.</p>            
+          </li>
+          <li>
+            <a href="http://staff.um.edu.mt/afra1/papers/GenInstrErl.pdf" target="_blank">A Generic Instrumentation Tool for Erlang</a> in RV-CuBES 2017
+            <p>Cassar, I., Francalanza, A., <b>Attard, D. P.</b>, Aceto, L., Ing&oacute;lfsd&oacute;ttir, A.</p>
+          </li>
+          <li>
+            <a href="http://staff.um.edu.mt/afra1/papers/sefm17.pdf" target="_blank">Trace Partitioning and Local Monitoring for Asynchronous Components</a> in SEFM 2017
+            <p><b>Attard, D. P.</b>, Francalanza, A.</p>
+          </li>
+          <li>
+            <a href="http://staff.um.edu.mt/afra1/papers/rv2016.pdf" target="_blank">A Monitoring Tool for a Branching-Time Logic</a> in RV 2016
+            <p><b>Attard, D. P.</b>, Francalanza, A.</p>
+            <p><a href="https://bitbucket.org/duncanatt/detecter-lite" target="_blank">Artefact</a></p>
+          </li>
+        </ul>
+
+        <h3>Journals</h3>
+        <ul>
+          <li>
+            <a href="https://staff.um.edu.mt/afra1/papers/Coord2022b.pdf" target="_blank">A Monitoring Tool for Linear-Time μHML</a> in SCP 2024
+            <p>Aceto, L., Achilleos, A., <b>Attard, D. P.</b>, Exibard, L., Francalanza, A., Ingólfsdóttir, A.</p>
+            <p><a href="https://doi.org/10.24433/CO.5275749.v1" target="_blank">Artefact</a></p>
+          </li>
+        </ul>
+        
+        <!-- <footer class="major">
+        </footer> -->
+      </section>
+
+      <section id="committees" class="main">
+        <header class="major">
+          <h2>
+            <span class="icon pad-right fas fa-users"></span>
+            Committees
+          </h2>
+        </header>
+        <ul>
+          <li>
+            DisCoTec 2025 - 19th Federated Conference on Distributed Computing Techniques
+            <p>DisCoTec Tools Science of Computer Programming Special Issue Guest Editor</p>
+          </li>
+          <li>
+            <a href="https://icfp24.sigplan.org/home/erlang-2024" target="_blank">Erlang 2024</a> - 23th ACM SIGPLAN Erlang Workshop
+            <p>Programme Committee Member</p>
+          </li>
+          <li>
+            <a href="https://www.discotec.org/2024/forte_ae.html" target="_blank">FORTE 2024</a> - 44th International Conference on Formal Techniques for Distributed Objects, Components, and Systems
+            <p>Artefact Evaluation Committee Co-Chair</p>
+          </li>
+          <li>
+            <a href="https://www.discotec.org/2024/forte" target="_blank">FORTE 2024</a> - 44th International Conference on Formal Techniques for Distributed Objects, Components, and Systems
+            <p>Programme Committee Member</p>
+          </li>
+          <li>
+            <a href="https://www.discotec.org/2023/ice" target="_blank">ICE 2023</a> - 16th Interaction and Concurrency Experience
+            <p>Programme Committee Member</p>
+          </li>
+          <li>
+            <a href="https://www.discotec.org/2022/ice" target="_blank">ICE 2022</a> - 15th Interaction and Concurrency Experience
+            <p>Programme Committee Member</p>
+          </li>
+          <li>
+            <a href="https://2022.ecoop.org/home/vortex-2022" target="_blank">VORTEX 2022</a> - 4th Workshop on Verification and Monitoring at Runtime Execution
+            <p>Workshops Organiser</p>
+          </li>
+          <li>
+            <a href="https://www.discotec.org/2021" target="_blank">DisCoTec 2021</a> - 16th Federated Conference on Distributed Computing Techniques
+            <p>Workshops Chair and Organiser</p>
+          </li>
+          <li>
+            <a href="https://www.discotec.org/2020" target="_blank">DisCoTec 2020</a> - 15th Federated Conference on Distributed Computing Techniques
+            <p>Workshops Chair and Organiser</p>
+          </li>
+        </ul>
       </section>
 
       <section id="teaching" class="main">
         <header class="major">
           <h2>
             <span class="icon pad-right fas fa-chalkboard-teacher"></span>
-            Teaching Experience
+            Teaching
           </h2>
         </header>
           <h3>Teaching</h3>
           <ul>
-              <li><i>CPS2001 - Programming Paradigms</i> (partly) &bull; University of Malta &bull; Sem. 1, 2017 - 2021</li>
+            <li><a href="https://github.com/duncanatt/programming-paradigms/" target="_blank">CPS2001 - Programming Paradigms</a> (joint) &bull; University of Malta &bull; Semester 1, 2017 -</li>
+            <li>Web Development in Python &bull; Reykjav&iacute;k University &bull; Semester 3, 2018 - 2019</li>
           </ul>
 
-          <h3>Teaching Assistance</h3>
+          <h3>Assistance</h3>
           <ul>
-            <li><i>Web Development in Python</i> &bull; Reykjav&iacute;k University &bull; Sem. 3, 2018 - 2019</li>
-            <li><i>CPS2001 - Programming Paradigms</i> &bull; University of Malta &bull; Sem. 1, 2017 - 2021</li>
-            <li><i>CPS3238 - Principles of Programming Languages</i> &bull; University of Malta &bull; Sem. 1, 2018 - 2020</li>
-            <li><i>CPS1011 - Programming Principles in C</i> &bull; University of Malta &bull; Sem. 1, 2015 - 2016</li>
+            <li>CPS2001 - Programming Paradigms &bull; University of Malta &bull; Semester 1, 2017 - 2021</li>
+            <li>CPS3238 - Principles of Programming Languages &bull; University of Malta &bull; Semester 1, 2018 - 2020</li>
+            <li>CPS1011 - Programming Principles in C &bull; University of Malta &bull; Semester 1, 2015 - 2016</li>
           </ul>
       </section>
 
       <section id="projects" class="main special">
         <header class="major">
-          <h2><span class="icon pad-right fas fa-project-diagram"></span>Projects</h2>
-          <p>Past and ongoing academic work, tools and projects.</p>
+          <h2><span class="icon pad-right fas fa-code-branch"></span>Projects</h2>
         </header>
+        <p>Past and ongoing academic work, tools and projects.</p>
         <ul class="features">
           <li>
             <span class="icon major style3 fab fa-erlang"></span>
@@ -127,9 +226,9 @@
             <p>An asynchronous runtime verification tool written for programs developed in the Erlang language.</p>
           </li>
           <li>
-            <span class="icon major style1 fas fa-laptop-code"></span>
+            <span class="icon major style1 fas fa-terminal"></span>
             <h3><a href="https://github.com/duncanatt/programming-paradigms">Programming Paradigms</a></h3>
-            <p>Tutorials, examples and accompanying material for the <i>CPS2001 - Programming Paradigms</i> course given at UM.</p>
+            <p>Tutorials, examples and accompanying material for the CPS2001 - Programming Paradigms course given at UM.</p>
           </li>
           <li>
             <span class="icon major style6 fas fa-chalkboard"></span>

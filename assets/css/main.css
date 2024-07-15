@@ -162,7 +162,7 @@ em, i {
 }
 
 p {
-  margin: 0 0 2em 0;
+  margin: 0 0 1em 0;
 }
 p.content {
   -moz-columns: 20em 2;
@@ -179,7 +179,7 @@ p.content {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
   line-height: 1.5;
-  margin: 0 0 0.7em 0;
+  margin: 0.5em 0 0 0;
   letter-spacing: -0.025em;
 }
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -1838,13 +1838,13 @@ input[type=radio]:focus + label:before {
   border: solid 1px;
   display: inline-block;
   border-radius: 100%;
-  padding: 0.65em;
-  margin: 0 0 2em 0;
+  padding: 0.25em;
+  margin: 0 0 0 0;
   cursor: default;
 }
 .icon.major:before {
   display: inline-block;
-  font-size: 6.25rem;
+  font-size: 4.25rem;
   width: 2.25em;
   height: 2.25em;
   line-height: 2.2em;
@@ -1973,20 +1973,22 @@ input[type=radio]:focus + label:before {
 /* List */
 ol {
   list-style: decimal;
-  margin: 0 0 2em 0;
-  padding-left: 1.25em;
+  margin: 0 0 1em 0;
+  padding-left: 1em;
 }
 ol li {
   padding-left: 0.25em;
+  padding-bottom: 0.5em
 }
 
 ul {
   list-style: disc;
-  margin: 0 0 2em 0;
+  margin: 0;
   padding-left: 1em;
 }
 ul li {
-  padding-left: 0.5em;
+  /* padding-left: 0.25em; */
+  padding-bottom: 0.5em
 }
 ul.alt {
   list-style: none;
@@ -1999,6 +2001,12 @@ ul.alt li {
 ul.alt li:first-child {
   border-top: 0;
   padding-top: 0;
+}
+
+li p {
+  font-size: 0.9em;
+  padding: 0;  
+  margin: 0;
 }
 
 dl {
@@ -2159,17 +2167,17 @@ section.special, article.special {
 }
 
 header.major {
-  margin-bottom: 3em;
+  margin-bottom: 1em;
 }
 header.major h2 {
-  font-size: 2em;
+  font-size: 1.5em;
 }
 header.major h2:after {
   display: block;
   content: "";
   width: 3.25em;
   height: 2px;
-  margin: 0.7em 0 1em 0;
+  margin: 0;
   border-radius: 2px;
 }
 section.special header.major h2:after, article.special header.major h2:after {
@@ -2731,7 +2739,7 @@ body.is-preload #header.alt .logo {
   color: #636363;
 }
 #main a:hover {
-  color: #636363;
+  color: #00A2FF;
 }
 #main strong, #main b {
   color: #636363;
@@ -2924,7 +2932,7 @@ body.is-preload #header.alt .logo {
   border-color: #dddddd;
 }
 #main > .main {
-  padding: 5em 5em 3em 5em;
+  padding: 4em 4em 2em 4em;
   border-top: solid 1px #dddddd;
 }
 #main > .main:first-child {
