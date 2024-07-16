@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import 'fontawesome.min.css';
+@import 'all.min.css';
 @import 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400';
 /*
   Stellar by HTML5 UP
@@ -179,7 +179,7 @@ p.content {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
   line-height: 1.5;
-  margin: 0.5em 0 0 0;
+  margin: 0.5em 0 0.5em 0;
   letter-spacing: -0.025em;
 }
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -2004,7 +2004,7 @@ ul.alt li:first-child {
 }
 
 li p {
-  font-size: 0.9em;
+  font-size: 0.8em;
   padding: 0;  
   margin: 0;
 }
