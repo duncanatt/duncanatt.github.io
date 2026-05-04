@@ -1,0 +1,30 @@
+/* Portfolio */
+
+.research-tags {
+  @include vendor('display', 'flex');
+  @include vendor('flex-wrap', 'wrap');
+  gap: 0.5em;
+  list-style: none;
+  margin: 0 0 _size(element-margin) 0;
+  padding-left: 0;
+
+  li {
+    background: _palette(bg1);
+    border: solid 1px _palette(bg1);
+    border-radius: 8px;
+    color: _palette(invert, bg);
+    font-size: 0.85em;
+    line-height: 1.35;
+    padding: 0.35em 0.65em;
+  }
+}
+
+@include breakpoint('<=xsmall') {
+  .research-tags {
+    display: block;
+
+    li {
+      margin: 0 0 0.65em 0;
+    }
+  }
+}
