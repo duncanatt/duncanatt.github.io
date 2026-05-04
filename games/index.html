@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+    <title>UFO Tank Shooter</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="game-shell" aria-label="UFO Tank Shooter arcade game">
+      <canvas id="game" width="1280" height="720"></canvas>
+
+      <section class="hud" aria-live="polite">
+        <div class="hud-group">
+          <span class="label">Score</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="hud-group">
+          <span class="label">Best</span>
+          <strong id="bestScore">0</strong>
+        </div>
+        <div class="hud-group">
+          <span class="label">Wave</span>
+          <strong id="wave">1</strong>
+        </div>
+        <div class="hud-group">
+          <span class="label">Destroyed</span>
+          <strong id="destroyed">0</strong>
+        </div>
+        <div class="hud-group">
+          <span class="label">Accuracy</span>
+          <strong id="accuracy">0%</strong>
+        </div>
+        <div class="hud-group">
+          <span class="label">Hull</span>
+          <div class="meter" aria-label="Hull integrity">
+            <span id="healthBar"></span>
+          </div>
+        </div>
+      </section>
+
+      <div class="title-card" id="overlay">
+        <p class="kicker">Codex arcade prototype</p>
+        <h1>UFO Tank Shooter</h1>
+        <p>Drive the 3D desert, aim the turret, and survive tougher UFO waves under the constellations.</p>
+        <button id="startButton" type="button">Start Mission</button>
+        <div class="controls">
+          <span>Move: WASD or arrows</span>
+          <span>Lock: Q or Tab</span>
+          <span>Aim: mouse or touch</span>
+          <span>Fire: click, space, or tap</span>
+        </div>
+      </div>
+
+      <div class="wave-flash" id="waveFlash"></div>
+      <div class="wave-banner" id="waveBanner">Wave 1</div>
+      <div class="toast" id="toast">Wave incoming</div>
+      <nav class="mobile-controls" id="mobileControls" aria-label="Touch controls">
+        <div class="stick-zone" id="moveStick" aria-label="Move tank">
+          <div class="stick-knob" id="moveKnob"></div>
+        </div>
+        <div class="touch-actions">
+          <button class="touch-button lock" id="touchLock" type="button">Lock</button>
+          <button class="touch-button fire" id="touchFire" type="button">Fire</button>
+        </div>
+      </nav>
+    </main>
+
+    <script src="main.js"></script>
+  </body>
+</html>

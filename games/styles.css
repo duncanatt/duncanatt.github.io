@@ -1,0 +1,460 @@
+:root {
+  color-scheme: dark;
+  --panel: rgba(11, 17, 28, 0.68);
+  --line: rgba(201, 232, 255, 0.18);
+  --text: #eef8ff;
+  --muted: #a8bed0;
+  --accent: #79f4d0;
+  --warn: #ffcf67;
+  --danger: #ff5d6c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(65, 139, 168, 0.34), transparent 34rem),
+    linear-gradient(180deg, #06101f 0%, #11152a 54%, #30241e 100%);
+  color: var(--text);
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.game-shell {
+  position: relative;
+  width: min(100vw, 1280px);
+  height: min(100dvh, 720px);
+  min-height: 420px;
+  overflow: hidden;
+  background: #07111f;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.46);
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.mobile-controls {
+  position: absolute;
+  left: max(16px, env(safe-area-inset-left));
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 4;
+  display: none;
+  align-items: end;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.stick-zone {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  border: 1px solid rgba(201, 232, 255, 0.2);
+  border-radius: 50%;
+  background: rgba(8, 17, 31, 0.34);
+  box-shadow: inset 0 0 26px rgba(121, 244, 208, 0.08);
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.stick-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(143, 250, 220, 0.76);
+  box-shadow: 0 0 24px rgba(121, 244, 208, 0.32);
+  transform: translate(-50%, -50%);
+}
+
+.touch-actions {
+  display: grid;
+  grid-template-columns: 74px 86px;
+  gap: 10px;
+  align-items: end;
+  pointer-events: auto;
+}
+
+.touch-button {
+  min-width: 0;
+  min-height: 58px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  background: rgba(8, 17, 31, 0.62);
+  color: var(--text);
+  font-size: 13px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  touch-action: none;
+}
+
+.touch-button.fire {
+  width: 86px;
+  height: 86px;
+  background: radial-gradient(circle at 35% 30%, #dfffee, #24e883 62%, #0d6b44);
+  color: #06101f;
+}
+
+.touch-button.lock {
+  width: 74px;
+  height: 74px;
+  color: #fff4a3;
+}
+
+.hud {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.hud-group {
+  min-width: 86px;
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  backdrop-filter: blur(16px);
+}
+
+.label {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.hud strong {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.meter {
+  width: clamp(96px, 18vw, 190px);
+  height: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.meter span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), var(--warn), var(--danger));
+  transform-origin: left center;
+}
+
+.title-card {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  padding: 28px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(5, 12, 24, 0.48), rgba(5, 12, 24, 0.82));
+  transition: opacity 180ms ease, visibility 180ms ease;
+}
+
+.title-card.hidden {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.kicker {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 760px;
+  font-size: clamp(48px, 8vw, 92px);
+  line-height: 0.9;
+  letter-spacing: 0;
+}
+
+.title-card p:not(.kicker) {
+  max-width: 520px;
+  margin: 18px 0 24px;
+  color: #d8e8f7;
+  font-size: clamp(16px, 2vw, 20px);
+}
+
+button {
+  min-width: 172px;
+  min-height: 48px;
+  border: 0;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #8ffadc, #f7d66c);
+  color: #07111f;
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 14px 34px rgba(121, 244, 208, 0.24);
+}
+
+button:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 4px;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 660px;
+  margin-top: 22px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.controls span,
+.toast {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(8, 17, 31, 0.64);
+  backdrop-filter: blur(14px);
+}
+
+.controls span {
+  padding: 7px 10px;
+}
+
+.toast {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  z-index: 5;
+  min-width: 170px;
+  padding: 10px 14px;
+  color: #f3fbff;
+  font-size: 13px;
+  font-weight: 900;
+  text-align: center;
+  transform: translate(-50%, 90px);
+  transition: transform 180ms ease;
+  pointer-events: none;
+}
+
+.wave-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: rgba(233, 251, 255, 0.36);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.wave-flash.show {
+  animation: wave-flash 520ms ease-out;
+}
+
+.wave-banner {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  z-index: 5;
+  min-width: 220px;
+  padding: 16px 22px;
+  border: 1px solid rgba(143, 250, 220, 0.48);
+  border-radius: 8px;
+  background: rgba(7, 17, 31, 0.72);
+  color: #f3fbff;
+  font-size: clamp(30px, 6vw, 62px);
+  font-weight: 950;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  transform: translate(-50%, -50%) scale(0.88);
+  opacity: 0;
+  pointer-events: none;
+  backdrop-filter: blur(16px);
+}
+
+.wave-banner.show {
+  animation: wave-banner 1150ms ease-out;
+}
+
+@keyframes wave-flash {
+  0% {
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes wave-banner {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.82);
+  }
+
+  18% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  78% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
+.toast.show {
+  transform: translate(-50%, 0);
+}
+
+@media (max-width: 720px) {
+  .game-shell {
+    width: 100vw;
+    height: 100dvh;
+    min-height: 0;
+    box-shadow: none;
+  }
+
+  .hud {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    gap: 6px;
+  }
+
+  .hud-group {
+    min-width: 68px;
+    min-height: 40px;
+    padding: 7px 8px;
+  }
+
+  .label {
+    font-size: 10px;
+  }
+
+  .hud strong {
+    font-size: 16px;
+  }
+
+  .meter {
+    width: 92px;
+  }
+
+  .mobile-controls {
+    display: flex;
+  }
+
+  .title-card {
+    padding: 22px 18px calc(120px + env(safe-area-inset-bottom));
+  }
+
+  .controls {
+    max-width: 360px;
+    font-size: 12px;
+  }
+}
+
+@media (pointer: coarse) {
+  .game-shell {
+    width: 100vw;
+    height: 100dvh;
+    min-height: 0;
+    box-shadow: none;
+  }
+
+  .mobile-controls {
+    display: flex;
+  }
+}
+
+@media (max-width: 420px) {
+  .hud-group {
+    min-width: 60px;
+    padding: 6px 7px;
+  }
+
+  .label {
+    font-size: 9px;
+  }
+
+  .hud strong {
+    font-size: 14px;
+  }
+
+  .stick-zone {
+    width: 112px;
+    height: 112px;
+  }
+
+  .stick-knob {
+    width: 48px;
+    height: 48px;
+  }
+
+  .touch-actions {
+    grid-template-columns: 64px 76px;
+  }
+
+  .touch-button.lock {
+    width: 64px;
+    height: 64px;
+  }
+
+  .touch-button.fire {
+    width: 76px;
+    height: 76px;
+  }
+}
