@@ -1,6 +1,6 @@
 # UFO Tank Shooter
 
-A browser arcade game inspired by the GPT-5.5 coding-demo style: a real WebGL 3D desert tank fights UFO waves, aggressive red raiders, motherships, dodgeable red and green projectiles, pickups, screen shake, explosions, destructible and regrowing trees, bushes, rocks, hilly height-shaded terrain, and constellations.
+A browser arcade game inspired by the GPT-5.5 coding-demo style: a real WebGL 3D desert tank fights UFO waves, aggressive red raiders, motherships, dodgeable red and green projectiles, pickups, screen shake, synthesized sound effects, vehicle break-up explosions, destructible and regrowing trees, bushes, rocks, hilly height-shaded terrain, and constellations.
 
 Open `index.html` in a browser to play. It uses only plain HTML, CSS, and raw WebGL, with no external libraries.
 

@@ -35,6 +35,9 @@ let running = false;
 let lastTime = 0;
 let toastTimer = 0;
 let pixelRatio = 1;
+let audioCtx = null;
+let masterGain = null;
+let ambience = null;
 
 const saved = readSavedStats();
 const state = {
@@ -57,6 +60,7 @@ const state = {
     bodyAngle: Math.PI,
     turretAngle: Math.PI,
     cooldown: 0,
+    destroyed: false,
   },
   enemies: [],
   bullets: [],
@@ -154,6 +158,113 @@ function lerp(a, b, t) {
   return a + (b - a) * t;
 }
 
+function ensureAudio() {
+  if (!audioCtx) {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return false;
+    audioCtx = new AudioContext();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = 0.32;
+    masterGain.connect(audioCtx.destination);
+  }
+  if (audioCtx.state === "suspended") audioCtx.resume();
+  if (!ambience) startAmbience();
+  return true;
+}
+
+function startAmbience() {
+  if (!audioCtx || !masterGain) return;
+  const hum = audioCtx.createOscillator();
+  const pulse = audioCtx.createOscillator();
+  const humGain = audioCtx.createGain();
+  const pulseGain = audioCtx.createGain();
+  hum.type = "sine";
+  pulse.type = "triangle";
+  hum.frequency.value = 54;
+  pulse.frequency.value = 0.13;
+  humGain.gain.value = 0.018;
+  pulseGain.gain.value = 0.008;
+  hum.connect(humGain);
+  pulse.connect(pulseGain);
+  humGain.connect(masterGain);
+  pulseGain.connect(masterGain);
+  hum.start();
+  pulse.start();
+  ambience = { hum, pulse };
+}
+
+function tone(freq, duration, type = "sine", volume = 0.12, slideTo = freq, delay = 0) {
+  if (!ensureAudio()) return;
+  const now = audioCtx.currentTime + delay;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, now);
+  osc.frequency.exponentialRampToValueAtTime(Math.max(20, slideTo), now + duration);
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(volume, now + 0.012);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+  osc.connect(gain);
+  gain.connect(masterGain);
+  osc.start(now);
+  osc.stop(now + duration + 0.04);
+}
+
+function noiseBurst(duration, volume, color = "white", delay = 0) {
+  if (!ensureAudio()) return;
+  const now = audioCtx.currentTime + delay;
+  const sampleRate = audioCtx.sampleRate;
+  const buffer = audioCtx.createBuffer(1, Math.max(1, Math.floor(sampleRate * duration)), sampleRate);
+  const data = buffer.getChannelData(0);
+  let last = 0;
+  for (let i = 0; i < data.length; i += 1) {
+    const white = Math.random() * 2 - 1;
+    last = color === "brown" ? last * 0.86 + white * 0.14 : white;
+    data[i] = last;
+  }
+  const source = audioCtx.createBufferSource();
+  const gain = audioCtx.createGain();
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = color === "brown" ? "lowpass" : "bandpass";
+  filter.frequency.value = color === "brown" ? 260 : 1180;
+  gain.gain.setValueAtTime(volume, now);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+  source.buffer = buffer;
+  source.connect(filter);
+  filter.connect(gain);
+  gain.connect(masterGain);
+  source.start(now);
+  source.stop(now + duration + 0.04);
+}
+
+function playSound(name) {
+  if (!ensureAudio()) return;
+  if (name === "tankFire") {
+    tone(760, 0.12, "square", 0.09, 210);
+    noiseBurst(0.08, 0.045, "white");
+  } else if (name === "enemyFire") {
+    tone(220, 0.16, "sawtooth", 0.07, 520);
+  } else if (name === "hit") {
+    tone(180, 0.16, "triangle", 0.09, 70);
+    noiseBurst(0.14, 0.07, "brown");
+  } else if (name === "explosion") {
+    tone(92, 0.38, "sawtooth", 0.11, 36);
+    noiseBurst(0.32, 0.13, "brown");
+  } else if (name === "pickup") {
+    tone(520, 0.09, "sine", 0.08, 760);
+    tone(880, 0.12, "sine", 0.07, 1220, 0.08);
+  } else if (name === "wave") {
+    tone(160, 0.2, "triangle", 0.07, 320);
+    tone(320, 0.24, "triangle", 0.06, 640, 0.12);
+  } else if (name === "damage") {
+    tone(105, 0.28, "sawtooth", 0.11, 55);
+    noiseBurst(0.18, 0.09, "brown");
+  } else if (name === "regrow") {
+    tone(340, 0.15, "sine", 0.055, 540);
+    tone(620, 0.12, "sine", 0.045, 820, 0.08);
+  }
+}
+
 function resetWorld() {
   state.score = 0;
   state.wave = 1;
@@ -172,6 +283,7 @@ function resetWorld() {
   state.tank.bodyAngle = Math.PI;
   state.tank.turretAngle = Math.PI;
   state.tank.cooldown = 0;
+  state.tank.destroyed = false;
   state.enemies = [];
   state.bullets = [];
   state.enemyShots = [];
@@ -261,6 +373,7 @@ function showWaveAnnouncement() {
   void waveFlash.offsetWidth;
   waveFlash.classList.add("show");
   waveBanner.classList.add("show");
+  playSound("wave");
 }
 
 function spawnWave() {
@@ -404,6 +517,7 @@ function fire() {
   });
   state.tank.cooldown = 0.2;
   state.shots += 1;
+  playSound("tankFire");
   spawnExplosion(start[0], start[1], start[2], [0.45, 1, 0.55], 6, 5);
   updateHud();
 }
@@ -431,6 +545,7 @@ function spawnEnemyShot(enemy) {
     maxLife: 2.6,
     dead: false,
   });
+  playSound("enemyFire");
 }
 
 function spawnExplosion(x, y, z, color, count, speed) {
@@ -447,15 +562,63 @@ function spawnExplosion(x, y, z, color, count, speed) {
       size: rand(0.28, 0.95),
       life: rand(0.35, 0.9),
       maxLife: 0.9,
+      shape: "spark",
     });
   }
 }
 
+function spawnVehicleExplosion(x, y, z, baseColor, scale = 1) {
+  spawnExplosion(x, y, z, [1, 0.68, 0.18], Math.floor(34 * scale), 9 * scale);
+  spawnExplosion(x, y + 0.5 * scale, z, baseColor, Math.floor(24 * scale), 7.2 * scale);
+  for (let i = 0; i < 16 * scale; i += 1) {
+    const a = rand(0, Math.PI * 2);
+    const lift = rand(2.6, 9.5) * scale;
+    state.explosions.push({
+      x: x + rand(-0.7, 0.7) * scale,
+      y: y + rand(-0.2, 0.9) * scale,
+      z: z + rand(-0.7, 0.7) * scale,
+      vx: Math.cos(a) * rand(3.5, 11) * scale,
+      vy: lift,
+      vz: Math.sin(a) * rand(3.5, 11) * scale,
+      yaw: rand(0, Math.PI * 2),
+      spin: rand(-8, 8),
+      color: i % 3 === 0 ? [0.08, 0.1, 0.11] : baseColor,
+      size: rand(0.32, 0.92) * scale,
+      life: rand(1.0, 1.8),
+      maxLife: 1.8,
+      shape: i % 4 === 0 ? "panel" : "chunk",
+    });
+  }
+  state.explosions.push({
+    x,
+    y: y - 0.08,
+    z,
+    vx: 0,
+    vy: 0,
+    vz: 0,
+    yaw: 0,
+    spin: 0,
+    color: [1, 0.72, 0.22],
+    size: 1.6 * scale,
+    life: 0.55,
+    maxLife: 0.55,
+    shape: "shockwave",
+  });
+}
+
 function damageTank(amount) {
+  if (state.tank.destroyed) return;
   state.health -= amount;
   state.shake = Math.max(state.shake, 1.1);
+  playSound("damage");
   spawnExplosion(state.tank.x, state.tank.y + 1.3, state.tank.z, [1, 0.25, 0.32], 24, 8);
-  if (state.health <= 0) endGame();
+  if (state.health <= 0) {
+    state.tank.destroyed = true;
+    state.shake = Math.max(state.shake, 2.4);
+    playSound("explosion");
+    spawnVehicleExplosion(state.tank.x, state.tank.y + 1.1, state.tank.z, [0.14, 0.43, 0.38], 1.45);
+    endGame();
+  }
   updateHud();
 }
 
@@ -463,6 +626,7 @@ function damageShrub(shrub, color) {
   if (!shrub || shrub.dead) return;
   shrub.hp -= 1;
   const y = terrainHeight(shrub.x, shrub.z) + shrub.scale * 1.3;
+  playSound(shrub.hp <= 0 ? "explosion" : "hit");
   spawnExplosion(shrub.x, y, shrub.z, color, 16, 5.5);
   if (shrub.hp <= 0) {
     shrub.dead = true;
@@ -480,6 +644,7 @@ function updateShrubs(dt) {
     shrub.hp = shrub.maxHp;
     shrub.regrowDuration = rand(20, 34);
     const y = terrainHeight(shrub.x, shrub.z) + shrub.scale * 1.4;
+    playSound("regrow");
     spawnExplosion(shrub.x, y, shrub.z, [0.32, 0.9, 0.28], 14, 4.8);
   }
 }
@@ -558,7 +723,10 @@ function update(dt) {
     if (toastTimer <= 0) toast.classList.remove("show");
   }
   updateCamera(dt);
-  if (!running) return;
+  if (!running) {
+    updateExplosions(dt);
+    return;
+  }
   updateTank(dt);
   updateBullets(dt);
   updateEnemies(dt);
@@ -644,6 +812,7 @@ function updateBullets(dt) {
       enemyHit.enemy.health -= 1;
       state.hits += 1;
       state.score += 18;
+      playSound("hit");
       spawnExplosion(enemyHit.point[0], enemyHit.point[1], enemyHit.point[2], enemyHit.enemy.type === "raider" ? [1, 0.38, 0.58] : [0.45, 1, 0.86], 12, 7);
       if (enemyHit.enemy.health <= 0) destroyEnemy(enemyHit.enemy);
     }
@@ -658,7 +827,15 @@ function destroyEnemy(enemy) {
   state.destroyed += 1;
   state.waveDestroyed += 1;
   state.shake = Math.max(state.shake, enemy.type === "mothership" ? 1.5 : 0.85);
+  playSound("explosion");
   spawnExplosion(enemy.x, enemy.y, enemy.z, [1, 0.75, 0.28], enemy.type === "mothership" ? 70 : 32, enemy.type === "mothership" ? 12 : 8);
+  spawnVehicleExplosion(
+    enemy.x,
+    enemy.y,
+    enemy.z,
+    enemy.type === "raider" ? [0.78, 0.25, 0.38] : enemy.type === "mothership" ? [0.96, 0.82, 0.38] : [0.6, 0.86, 0.95],
+    enemy.type === "mothership" ? 2.1 : enemy.type === "raider" ? 1.18 : 1,
+  );
   if (Math.random() < 0.22) state.pickups.push({ x: enemy.x, y: 1.1, z: enemy.z, phase: rand(0, Math.PI * 2), dead: false });
 }
 
@@ -737,6 +914,7 @@ function updatePickups(dt) {
       pickup.dead = true;
       state.health = clamp(state.health + 18, 0, 100);
       state.score += 70;
+      playSound("pickup");
       spawnExplosion(pickup.x, 2, pickup.z, [0.45, 1, 0.86], 20, 7);
     }
   }
@@ -749,6 +927,7 @@ function updateExplosions(dt) {
     spark.y += spark.vy * dt;
     spark.z += spark.vz * dt;
     spark.vy -= 10 * dt;
+    spark.yaw = (spark.yaw || 0) + (spark.spin || 0) * dt;
     spark.life -= dt;
   }
   state.explosions = state.explosions.filter((spark) => spark.life > 0);
@@ -768,13 +947,26 @@ function render() {
   for (const rock of state.rocks) drawRock(rock);
   for (const shrub of state.shrubs) drawShrub(shrub);
   for (const pickup of state.pickups) drawPickup(pickup);
-  drawTank();
+  if (!state.tank.destroyed) drawTank();
   for (const enemy of state.enemies) drawUfo(enemy);
   if (state.target && !state.target.dead) drawTargetLock(state.target);
   for (const bullet of state.bullets) drawProjectile(bullet, [0.2, 1, 0.36], 0.56);
   for (const shot of state.enemyShots) drawProjectile(shot, [1, 0.18, 0.08], 0.48);
   for (const spark of state.explosions) {
     const alphaScale = clamp(spark.life / spark.maxLife, 0.25, 1);
+    drawExplosionPart(spark, alphaScale);
+  }
+}
+
+function drawExplosionPart(spark, alphaScale) {
+  if (spark.shape === "panel") {
+    drawMesh(meshes.cube, matrix([spark.x, spark.y, spark.z], spark.yaw || 0, [spark.size * 1.5 * alphaScale, spark.size * 0.16 * alphaScale, spark.size * 0.72 * alphaScale]), spark.color);
+  } else if (spark.shape === "chunk") {
+    drawMesh(meshes.cube, matrix([spark.x, spark.y, spark.z], spark.yaw || 0, [spark.size * alphaScale, spark.size * 0.62 * alphaScale, spark.size * 0.86 * alphaScale]), spark.color);
+  } else if (spark.shape === "shockwave") {
+    const grow = 1 - clamp(spark.life / spark.maxLife, 0, 1);
+    drawMesh(meshes.cylinder, matrix([spark.x, spark.y, spark.z], 0, [spark.size * (1.2 + grow * 4.4), 0.045 * alphaScale, spark.size * (1.2 + grow * 4.4)]), [spark.color[0] * alphaScale, spark.color[1] * alphaScale, spark.color[2] * alphaScale]);
+  } else {
     drawMesh(meshes.sphere, matrix([spark.x, spark.y, spark.z], 0, [spark.size * alphaScale, spark.size * alphaScale, spark.size * alphaScale]), spark.color);
   }
 }
@@ -961,6 +1153,7 @@ function resize() {
 }
 
 function startMission() {
+  ensureAudio();
   resetWorld();
   running = true;
   overlay.classList.add("hidden");
