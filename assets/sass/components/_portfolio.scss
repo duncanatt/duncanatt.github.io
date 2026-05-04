@@ -1,9 +1,6 @@
 /* Portfolio */
 
 .research-tags {
-  @include vendor('display', 'flex');
-  @include vendor('flex-wrap', 'wrap');
-  gap: 0.5em;
   list-style: none;
   margin: 0 0 _size(element-margin) 0;
   padding-left: 0;
@@ -12,19 +9,16 @@
     background: _palette(bg1);
     border: solid 1px _palette(bg1);
     border-radius: 8px;
+    box-sizing: border-box;
     color: _palette(invert, bg);
+    display: inline-block;
     font-size: 0.85em;
     line-height: 1.35;
-    padding: 0.35em 0.65em;
-  }
-}
-
-@include breakpoint('<=xsmall') {
-  .research-tags {
-    display: block;
-
-    li {
-      margin: 0 0 0.65em 0;
-    }
+    margin: 0 0.45em 0.55em 0;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    padding: 0.3em 0.6em;
+    vertical-align: top;
+    white-space: normal;
   }
 }

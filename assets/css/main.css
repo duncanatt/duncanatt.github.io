@@ -3085,15 +3085,6 @@ body.is-preload #header.alt .logo {
 
 /* Portfolio */
 .research-tags {
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-  -moz-flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  gap: 0.5em;
   list-style: none;
   margin: 0 0 2em 0;
   padding-left: 0;
@@ -3102,19 +3093,17 @@ body.is-preload #header.alt .logo {
   background: #00A2FF;
   border: solid 1px #00A2FF;
   border-radius: 8px;
+  box-sizing: border-box;
   color: #ffffff;
+  display: inline-block;
   font-size: 0.85em;
   line-height: 1.35;
-  padding: 0.35em 0.65em;
-}
-
-@media screen and (max-width: 480px) {
-  .research-tags {
-    display: block;
-  }
-  .research-tags li {
-    margin: 0 0 0.65em 0;
-  }
+  margin: 0 0.45em 0.55em 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  padding: 0.3em 0.6em;
+  vertical-align: top;
+  white-space: normal;
 }
 
 /*# sourceMappingURL=main.css.map */
